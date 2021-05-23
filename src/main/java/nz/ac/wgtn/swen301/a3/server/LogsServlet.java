@@ -38,9 +38,6 @@ public class LogsServlet extends HttpServlet{
 				resp.setContentType("application/json");
 				PrintWriter out = resp.getWriter();
 				
-				out.println("<html>");
-		        out.println("<body>");  
-		        
 		        ArrayList<LogEvent> logs = new ArrayList<>();
 		        ObjectMapper mapper = new ObjectMapper();
 		    	ArrayNode arrayNode = mapper.createArrayNode();
@@ -58,9 +55,8 @@ public class LogsServlet extends HttpServlet{
 		        }			    			    	
 		        
 			    out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(arrayNode));
-		        out.println("</body>");
-		        out.println("</html>");
 		        out.close();
+		        resp.setStatus(200);
 			}
 			else {
 				resp.sendError(400, "Parameters given were invalid");
@@ -69,10 +65,51 @@ public class LogsServlet extends HttpServlet{
 	}
 
 	@Override
-	public void doPost(HttpServletRequest req, HttpServletResponse resp) {}
+	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		
+		ObjectMapper mapper = new ObjectMapper();
+		LogEvent newLogEvent = new LogEvent();
+		try {
+			JsonNode jsonNode = mapper.readTree(req.getParameter("logEvent"));
+			if(jsonNode.size()<6) {
+				resp.sendError(400,"invalid input, object invalid");
+			}else {
+				List<JsonNode> l = new ArrayList<JsonNode>();
+				l.add(jsonNode.get("id"));
+				l.add(jsonNode.get("message"));
+				l.add(jsonNode.get("timestamp"));
+				l.add(jsonNode.get("thread"));
+				l.add(jsonNode.get("logger"));
+				l.add(jsonNode.get("level"));
+				if(!l.contains(null) && LogsServlet.LevelNames.contains(jsonNode.get(5).asText())) {
+					newLogEvent.setId(l.get(0).asText());
+					newLogEvent.setMessage(l.get(1).asText());
+					newLogEvent.setTimestamp(l.get(2).asText());
+					newLogEvent.setThread(l.get(3).asText());
+					newLogEvent.setLogger(l.get(4).asText());
+					newLogEvent.setLevel(l.get(5).asText());
+					//error details is not required
+					newLogEvent.setErrorDetails(jsonNode.get("errorDetails").asText());
+					if(Persistency.DB.contains(newLogEvent)) {
+						resp.sendError(409,"a log event with this id aleady exists");
+					}else {
+						Persistency.DB.add(newLogEvent);
+						resp.setStatus(201);
+					}
+				}else {
+					resp.sendError(400,"invalid input, object invalid");
+				}
+			}
+		}catch(Throwable t) {
+			resp.sendError(400,"invalid input, object invalid");
+		}
+	}
 	
 	@Override
-	public void doDelete(HttpServletRequest req, HttpServletResponse resp) {}
+	public void doDelete(HttpServletRequest req, HttpServletResponse resp) {
+		Persistency.DB.clear();
+		resp.setStatus(200);
+	}
 	
 	/**
 	 * returns log events from Persistency.DB with the given level or less
