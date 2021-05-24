@@ -68,8 +68,8 @@ public class LogsServlet extends HttpServlet {
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		LogEvent newLogEvent = new LogEvent();
-		try {
-			JsonNode jsonNode = mapper.readTree(req.getParameter("logEvent"));
+		try {			
+			JsonNode jsonNode = mapper.readTree(req.getInputStream());
 			if (jsonNode.size() < 6) {
 				resp.sendError(400, "invalid input, object invalid");
 			} else {
@@ -80,8 +80,9 @@ public class LogsServlet extends HttpServlet {
 				l.add(jsonNode.get("thread"));
 				l.add(jsonNode.get("logger"));
 				l.add(jsonNode.get("level"));
+				boolean validLevel = LogsServlet.LevelNames.contains(l.get(5).asText());
 				//required variables are present, level is a valid level and date is a valid date
-				if (!l.contains(null) && LogsServlet.LevelNames.contains(jsonNode.get(5).asText()) && checkValidDate(l.get(2).asText())) {
+				if (!l.contains(null) && checkValidDate(l.get(2).asText()) && validLevel) {
 					newLogEvent.setId(l.get(0).asText());
 					newLogEvent.setMessage(l.get(1).asText());
 					newLogEvent.setTimestamp(l.get(2).asText());

@@ -13,6 +13,10 @@ import static org.junit.Assert.assertTrue;
 
 public class TestGetLogs {
 	static {
+		//clear DB before testing
+		LogsServlet ls = new LogsServlet();
+		ls.doDelete(new MockHttpServletRequest(), new MockHttpServletResponse());
+		
 		LogEvent l = new LogEvent();
 		l.setId("d290f1ee-6c54-4b01-90e6-d701748f0851");
 		l.setMessage("application started");
@@ -25,7 +29,6 @@ public class TestGetLogs {
 	}
 	@Test
     public void testInvalidRequestResponseCode1() throws IOException {
-
         MockHttpServletRequest request = new MockHttpServletRequest();
         MockHttpServletResponse response = new MockHttpServletResponse();
         // query parameter missing
@@ -37,7 +40,6 @@ public class TestGetLogs {
 
     @Test
     public void testInvalidRequestResponseCode2() throws IOException {
-
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setParameter("not a valid param name","42");
         MockHttpServletResponse response = new MockHttpServletResponse();
@@ -51,7 +53,6 @@ public class TestGetLogs {
 
     @Test
     public void testValidRequestResponseCode() throws IOException {
-    	
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setParameter("limit","30");
         request.setParameter("level","OFF");
@@ -65,7 +66,6 @@ public class TestGetLogs {
 
     @Test
     public void testValidContentType() throws IOException {
-
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setParameter("limit","30");
         request.setParameter("level","OFF");
@@ -79,7 +79,6 @@ public class TestGetLogs {
 
     @Test
     public void testReturnedValues() throws IOException {
-    	
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setParameter("limit","30");
         request.setParameter("level","DEBUG");
