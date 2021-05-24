@@ -66,7 +66,6 @@ public class LogsServlet extends HttpServlet {
 
 	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-
 		ObjectMapper mapper = new ObjectMapper();
 		LogEvent newLogEvent = new LogEvent();
 		try {
@@ -128,7 +127,7 @@ public class LogsServlet extends HttpServlet {
 	}
 	/**
 	 * returns log events from Persistency.DB with the given level or less
-	 * 
+	 * could further improve performance by only looking at LevelNames we haven't checked yet
 	 * @param limit
 	 * @param level
 	 * @return
