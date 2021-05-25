@@ -19,7 +19,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 public class LogsServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 6209606058369376152L;
-	private static final List<String> LevelNames = new ArrayList<String>(
+	public static final List<String> LevelNames = new ArrayList<String>(
 			Arrays.asList("ALL", "DEBUG", "INFO", "WARN", "ERROR", "FATAL", "TRACE", "OFF"));
 
 	@Override

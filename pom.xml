@@ -16,6 +16,11 @@
 	</properties>
 	<dependencies>
 		<dependency>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi-ooxml</artifactId>
+		    <version>4.1.2</version>
+		</dependency>
+		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>3.1.0</version>
@@ -48,7 +53,6 @@
 			<artifactId>spring-web</artifactId>
 			<version>5.2.0.RELEASE</version>
 		</dependency>
-
 	</dependencies>
 
 	<build>
