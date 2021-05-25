@@ -2,6 +2,7 @@ package nz.ac.wgtn.swen301.a3.server;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -64,22 +65,19 @@ public class StatsXLSServlet extends HttpServlet {
 		// Add the log event statistics to the table
 		CellStyle style = workBook.createCellStyle();
 		style.setWrapText(true);
-
-		for (int i = 1; i < Persistency.getLoggers().size() + 1; i++) {
-
-			String logger = Persistency.getLoggers().get(i - 1);
-			Row row = sheet.createRow(i);
+		
+		Map<String,List<Integer>> map = Persistency.getLoggerCountsMap();
+		int count=1;
+		for(String logger:map.keySet()) {
+			Row row = sheet.createRow(count);
 			Cell cell = row.createCell(0);
 			cell.setCellValue(logger);
-
-			List<Integer> list = Persistency.getLoggerCountsMap().get(logger);
-			for (int j = 1; j < list.size() + 1; j++) {
+			for (int j = 1; j < map.get(logger).size() + 1; j++) {
 				cell = row.createCell(j);
-				cell.setCellValue(list.get(j - 1));
+				cell.setCellValue(map.get(logger).get(j - 1));
 				cell.setCellStyle(style);
 			}
 		}
-
 		return workBook;
 	}
 

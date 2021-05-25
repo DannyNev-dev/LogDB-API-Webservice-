@@ -56,11 +56,11 @@ public class StatsServlet extends HttpServlet{
 		String endString = "</tr>\n";
 		Map<String,List<Integer>> map = Persistency.getLoggerCountsMap();
 		for(String ln : map.keySet()) {
-			String temp = "<td>\n";
-			temp+=ln+"\n </td>\n";
+			String temp = "<td>";
+			temp += ln + "</td>\n";
 			for(int i = 0;i<map.get(ln).size();i++) {
-				String temp2 = "<td>\n";
-				temp2 += Integer.toString(map.get(ln).get(i))+"\n </td>\n";
+				String temp2 = "<td>";
+				temp2 += Integer.toString(map.get(ln).get(i))+"</td>\n";
 				temp += temp2;
 			}
 			middle+=temp;
