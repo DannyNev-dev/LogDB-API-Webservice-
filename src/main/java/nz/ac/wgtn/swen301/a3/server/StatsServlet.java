@@ -25,7 +25,7 @@ public class StatsServlet extends HttpServlet{
 		out.println("</style>");
 		out.println("</head>");
         out.println("<body>");
-        out.println("<table style=\"width:100%\">");
+        out.println("<table style=\"width:50%\">");
         out.println("<tr>");
         out.println("<th>logger</th>");
         out.println("<th>ALL</th> ");
