@@ -9,13 +9,12 @@ import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
-
-public class TestStatsXLS {
+public class TestStatsCSV {
     @Test
     public void testValidRequestResponseCode() throws IOException {
         MockHttpServletRequest request = new MockHttpServletRequest();
         MockHttpServletResponse response = new MockHttpServletResponse();
-        StatsXLSServlet service = new StatsXLSServlet();
+        StatsCSVServlet service = new StatsCSVServlet();
         service.doGet(request,response);
         assertEquals(200,response.getStatus());
     }
@@ -24,16 +23,16 @@ public class TestStatsXLS {
     public void testValidContentType() throws IOException {
         MockHttpServletRequest request = new MockHttpServletRequest();
         MockHttpServletResponse response = new MockHttpServletResponse();
-        StatsXLSServlet service = new StatsXLSServlet();
+        StatsCSVServlet service = new StatsCSVServlet();
         service.doGet(request,response);
-        assertTrue(response.getContentType().startsWith("application/vnd.ms-excel"));
+        assertTrue(response.getContentType().startsWith("text/csv"));
     }
 
     @Test
     public void testReturnedValues() throws IOException {
         MockHttpServletRequest request = new MockHttpServletRequest();
         MockHttpServletResponse response = new MockHttpServletResponse();
-        StatsXLSServlet service = new StatsXLSServlet();
+        StatsCSVServlet service = new StatsCSVServlet();
         service.doGet(request,response);
         assertTrue(true);
     }

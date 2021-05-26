@@ -18,7 +18,6 @@ public class StatsServlet extends HttpServlet{
 		
 		resp.setContentType("text/html");
 		PrintWriter out = resp.getWriter();
-		
 		out.println("<html>");
 		out.println("<head>");
 		out.println("<style>");
@@ -44,6 +43,7 @@ public class StatsServlet extends HttpServlet{
         out.println("</body>");
         out.println("</html>");
         out.close();
+        resp.setStatus(200);
 	}
 	
 	/**
@@ -51,21 +51,17 @@ public class StatsServlet extends HttpServlet{
 	 * @return
 	 */
 	private String createHTMLtdString() {
-		String startString = "<tr>\n";
-		String middle = "";
-		String endString = "</tr>\n";
+		String result = "";
 		Map<String,List<Integer>> map = Persistency.getLoggerCountsMap();
 		for(String ln : map.keySet()) {
-			String temp = "<td>";
-			temp += ln + "</td>\n";
+			String temp = "<tr>\n";
+			temp += "<td>"+ln+"</td>\n";
 			for(int i = 0;i<map.get(ln).size();i++) {
-				String temp2 = "<td>";
-				temp2 += Integer.toString(map.get(ln).get(i))+"</td>\n";
-				temp += temp2;
+				temp += "<td>" + Integer.toString(map.get(ln).get(i))+"</td>\n";
 			}
-			middle+=temp;
+			result += temp + "</tr>\n";
 		}
-		return startString + middle + endString;
+		return result;
 	}
 	
 }

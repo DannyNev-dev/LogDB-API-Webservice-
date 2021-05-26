@@ -139,7 +139,7 @@ public class LogsServlet extends HttpServlet {
 		for (int i = 0; i < limit; i++) {
 			int count = 0;
 			for (LogEvent l : Persistency.DB) {
-				if ((LevelNames.indexOf(l.level) >= LevelNames.indexOf(level)) && !tempLogs.contains(l)) {
+				if ((LevelNames.indexOf(l.getLevel()) >= LevelNames.indexOf(level)) && !tempLogs.contains(l)) {
 					tempLogs.add(l);
 					break;
 				}
