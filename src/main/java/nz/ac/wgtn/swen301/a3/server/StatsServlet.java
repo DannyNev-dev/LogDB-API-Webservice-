@@ -2,7 +2,6 @@ package nz.ac.wgtn.swen301.a3.server;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServlet;
@@ -52,12 +51,12 @@ public class StatsServlet extends HttpServlet{
 	 */
 	private String createHTMLtdString() {
 		String result = "";
-		Map<String,List<Integer>> map = Persistency.getLoggerCountsMap();
+		Map<String, int[]> map = Persistency.getLoggerCountsMap();
 		for(String ln : map.keySet()) {
 			String temp = "<tr>\n";
 			temp += "<td>"+ln+"</td>\n";
-			for(int i = 0;i<map.get(ln).size();i++) {
-				temp += "<td>" + Integer.toString(map.get(ln).get(i))+"</td>\n";
+			for(int i = 0;i<map.get(ln).length;i++) {
+				temp += "<td>" + Integer.toString(map.get(ln)[i])+"</td>\n";
 			}
 			result += temp + "</tr>\n";
 		}

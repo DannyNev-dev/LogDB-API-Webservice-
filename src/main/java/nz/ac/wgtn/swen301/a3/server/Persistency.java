@@ -25,12 +25,12 @@ public class Persistency {
 	 * returns a map of loggers and their corresponding level counts
 	 * @return
 	 */
-	public static Map<String,List<Integer>> getLoggerCountsMap(){
+	public static Map<String, int[]> getLoggerCountsMap(){
 		List<String> loggers = Persistency.getLoggers();
-		Map<String,List<Integer>> map = new HashMap<>();
+		Map<String,int[]> map = new HashMap<>();
 		if(loggers.size()>=1) {
 			for(String logger:loggers) {
-				map.put(logger, getLevelCounts(Persistency.DB.stream().filter(e->!e.getLogger().equals(logger)).collect(Collectors.toList())));
+				map.put(logger, getLevelCounts(Persistency.DB.stream().filter(e->e.getLogger().equals(logger)).collect(Collectors.toList())));
 			}
 		}
 		return map;
@@ -41,27 +41,27 @@ public class Persistency {
 	 * @param list of logs to count
 	 * @return
 	 */
-	public static List<Integer> getLevelCounts(List<LogEvent> logs){
-		List<Integer> counts = new ArrayList<>(LogsServlet.LevelNames.size());
-		logs.stream().forEach(e -> {
+	public static int[] getLevelCounts(List<LogEvent> logs){
+		int[] counts = new int[LogsServlet.LevelNames.size()];
+		for(LogEvent e:logs) {
 			if(e.getLevel().equals("ALL")) {
-				counts.set(0, counts.get(0)+1);
+				counts[0]++;
 			}else if(e.getLevel().equals("DEBUG")) {
-				counts.set(1, counts.get(1)+1);
+				counts[1]++;
 			}else if(e.getLevel().equals("INFO")) {
-				counts.set(2, counts.get(2)+1);
+				counts[2]++;
 			}else if(e.getLevel().equals("WARN")) {
-				counts.set(3, counts.get(3)+1);
+				counts[3]++;
 			}else if(e.getLevel().equals("ERROR")) {
-				counts.set(4, counts.get(4)+1);
+				counts[4]++;
 			}else if(e.getLevel().equals("FATAL")) {
-				counts.set(5, counts.get(5)+1);
+				counts[5]++;
 			}else if(e.getLevel().equals("TRACE")) {
-				counts.set(6, counts.get(6)+1);
+				counts[6]++;
 			}else if(e.getLevel().equals("OFF")) {
-				counts.set(7,counts.get(7)+1);
+				counts[7]++;
 			}
-		});
+		}
 		return counts;
 	}
 }

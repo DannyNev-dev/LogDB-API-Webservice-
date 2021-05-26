@@ -3,7 +3,6 @@ package nz.ac.wgtn.swen301.a3.server;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -17,7 +16,6 @@ public class StatsCSVServlet extends HttpServlet{
 
 	private static final long serialVersionUID = -277787920703387054L;
 	
-	
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		resp.setContentType("text/csv");
@@ -25,11 +23,14 @@ public class StatsCSVServlet extends HttpServlet{
 		List<String[]> dataLines = new ArrayList<>();
 		dataLines.add(new String[] { "logger", "ALL", "DEBUG", "INFO", "WARN", "ERROR", "FATAL", "TRACE", "OFF" });
 		
-		Map<String,List<Integer>> map = Persistency.getLoggerCountsMap();
+		Map<String, int[]> map = Persistency.getLoggerCountsMap();
 		for(String s:map.keySet()) {
-			List<String> temp = Arrays.asList(new String[] {s});
-			temp.addAll(map.get(s).stream().map(Object::toString).collect(Collectors.toList()));
-			dataLines.add((String[]) temp.toArray());
+			String[] temp = new String[9];
+			temp[0] = s;
+			for(int i = 1; i < map.get(s).length+1;i++) {
+				temp[i] = Integer.toString(map.get(s)[i-1]);
+			}
+			dataLines.add(temp);
 		}
 		
 		dataLines.stream().map(this::convertToCSV).forEach(writer::println);

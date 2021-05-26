@@ -1,7 +1,6 @@
 package nz.ac.wgtn.swen301.a3.server;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServlet;
@@ -66,15 +65,15 @@ public class StatsXLSServlet extends HttpServlet {
 		CellStyle style = workBook.createCellStyle();
 		style.setWrapText(true);
 		
-		Map<String,List<Integer>> map = Persistency.getLoggerCountsMap();
+		Map<String, int[]> map = Persistency.getLoggerCountsMap();
 		int count=1;
 		for(String logger:map.keySet()) {
 			Row row = sheet.createRow(count);
 			Cell cell = row.createCell(0);
 			cell.setCellValue(logger);
-			for (int j = 1; j < map.get(logger).size() + 1; j++) {
+			for (int j = 1; j < map.get(logger).length + 1; j++) {
 				cell = row.createCell(j);
-				cell.setCellValue(map.get(logger).get(j - 1));
+				cell.setCellValue(map.get(logger)[j - 1]);
 				cell.setCellStyle(style);
 			}
 		}

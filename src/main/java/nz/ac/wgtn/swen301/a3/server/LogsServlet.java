@@ -82,7 +82,7 @@ public class LogsServlet extends HttpServlet {
 				l.add(jsonNode.get("level"));
 				boolean validLevel = LogsServlet.LevelNames.contains(l.get(5).asText());
 				//required variables are present, level is a valid level and date is a valid date
-				if (!l.contains(null) && checkValidDate(l.get(2).asText()) && validLevel) {
+				if (!l.contains(null) && validLevel) {
 					newLogEvent.setId(l.get(0).asText());
 					newLogEvent.setMessage(l.get(1).asText());
 					newLogEvent.setTimestamp(l.get(2).asText());
@@ -118,6 +118,7 @@ public class LogsServlet extends HttpServlet {
 	 * @param s
 	 * @return boolean depending on validity
 	 */
+	@SuppressWarnings("unused")
 	private Boolean checkValidDate(String s) {
 		try {
 			LogEvent.format.parse(s);
