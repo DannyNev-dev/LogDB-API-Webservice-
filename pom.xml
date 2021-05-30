@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>nz.ac.wgtn.swen301.a3</groupId>
 	<artifactId>resthome4logs-client</artifactId>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 	<version>1.0</version>
 	<name>Simple Log Service</name>
 	<url>http://maven.apache.org</url>
