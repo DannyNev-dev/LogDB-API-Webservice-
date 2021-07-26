@@ -1,3 +1,3 @@
-# LogDB-API-Webservice-
+# LogDB-API
 
-Simple Servlet based API for adding/removing log events to a server side db and displaying the db stats.
+Simple Servlet based LogEvent DB API with the ability to query, and retrieve statistics.
